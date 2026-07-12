@@ -5,14 +5,16 @@ import datetime
 import plotly.graph_objects as go
 from sklearn.ensemble import RandomForestRegressor
 
-
+# ==========================================
+# 1. Page Configuration & Premium CSS Injection
+# ==========================================
 st.set_page_config(
     page_title="Predictive Weather Analytics",
     page_icon="🌤️",
     layout="wide"
 )
 
-
+# Custom Styling: Frosted Pastel Glassmorphism & System-wide Overrides
 st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
@@ -71,20 +73,32 @@ st.markdown("""
         font-weight: 600 !important;
     }
 
-    /* Glassmorphic Form Inputs - Neutralizing System Overrides */
+    /* Aggressive styling to force text input field to remain solid white with dark text */
     div[data-baseweb="input"] {
-        background: rgba(255, 255, 255, 0.55) !important;
-        backdrop-filter: blur(12px) !important;
-        -webkit-backdrop-filter: blur(12px) !important;
-        border: 1px solid rgba(255, 255, 255, 0.8) !important;
+        background-color: #FFFFFF !important;
+        background: #FFFFFF !important;
+        border: 1px solid rgba(226, 232, 240, 0.8) !important;
         border-radius: 12px !important;
         box-shadow: inset 0 2px 4px rgba(148, 163, 184, 0.02) !important;
     }
 
-    div[data-baseweb="input"] input {
+    div[data-baseweb="input"] > div {
+        background-color: #FFFFFF !important;
+        background: #FFFFFF !important;
+    }
+
+    input[data-testid="stTextInput-Input"] {
+        background-color: #FFFFFF !important;
+        background: #FFFFFF !important;
         color: #1E293B !important;
-        font-weight: 600 !important;
-        background-color: transparent !important;
+        -webkit-text-fill-color: #1E293B !important;
+    }
+
+    .stTextInput input {
+        background-color: #FFFFFF !important;
+        background: #FFFFFF !important;
+        color: #1E293B !important;
+        border-radius: 12px !important;
     }
 
     /* Custom Pastel Accent Sidebar Run Button */
@@ -161,6 +175,10 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
+# ==========================================
+# 2. API Interaction & Data Layer
+# ==========================================
+
 @st.cache_data(ttl=86400)
 def fetch_coordinates(city_name):
     """Fetches latitude, longitude, and formatted name for a given city name."""
@@ -227,6 +245,9 @@ def fetch_weather_data(lat, lon):
         st.error(f"Data Extraction Error: {e}")
         return None
 
+# ==========================================
+# 3. Machine Learning Layer
+# ==========================================
 
 def train_prediction_model(df):
     """Engineers features and trains a Random Forest model."""
@@ -246,11 +267,14 @@ def train_prediction_model(df):
     last_temp = df['temperature_2m_max'].iloc[-1]
     return model, last_temp
 
+# ==========================================
+# 4. Main Panel Control Tower (No Sidebar)
+# ==========================================
 
 st.markdown("<div class='app-title'>🌤️ Predictive Weather Analytics</div>", unsafe_allow_html=True)
 st.markdown("<div class='app-subtitle'>A premium machine learning platform for historical and predictive forecasting.</div>", unsafe_allow_html=True)
 
-
+# Prominent Control Panel Container at the Top of the Page
 st.markdown("<div class='section-header'>🎛️ Analytics Control Panel</div>", unsafe_allow_html=True)
 with st.container():
     col_input, col_slider, col_trigger = st.columns([2, 2, 1])
@@ -265,6 +289,9 @@ with st.container():
 
 st.markdown("<hr>", unsafe_allow_html=True)
 
+# ==========================================
+# 5. Pipeline Execution & Visualization
+# ==========================================
 
 if run_btn:
     with st.spinner(f"Analyzing climate patterns for {city_input}..."):
