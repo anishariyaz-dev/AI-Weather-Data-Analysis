@@ -35,11 +35,6 @@ The mathematical predictive baseline utilizes a specialized `RandomForestRegress
 * Day of Year: Established to track granular orbital climate tracking.
 * Lagged Baseline Target: The maximum temperature recorded on the previous day to capture immediate atmospheric inertia.
 
-To project $N$ days into the future, the model executes an autoregressive sequence where each prediction feeds back into the model as the input for the next day:
-
-$$T_{t+i} = f(\text{month}_{t+i}, \, \text{day\_of\_year}_{t+i}, \, T_{t+i-1})$$
-
-
  Installation & Local Deployment
  1. Repository Setup
 Clone the project to your local machine:
